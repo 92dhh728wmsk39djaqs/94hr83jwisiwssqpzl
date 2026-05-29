@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flow . Grove</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+<!-- Floating background squares -->
+<div class="bg-canvas">
+  <div class="grid-float" id="grid"></div>
+</div>
+
+<!-- Side Menu Overlay -->
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<!-- Side Menu -->
+<div class="side-menu" id="sideMenu">
+  <div class="menu-header">
+    <div class="menu-brand">
+      <div class="nav-icon">
+        <img src="assets/logo.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;position:absolute;top:0;left:0;" />
+      </div>
+      <span class="nav-name">Flow . Grove</span>
+    </div>
+    <button class="close-btn" onclick="closeMenu()">✕</button>
+  </div>
+  <ul class="menu-links">
+    <li onclick="closeMenu(); document.getElementById('features').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Features
+    </li>
+    <li onclick="closeMenu(); document.getElementById('faq').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      FAQ
+    </li>
+    <li onclick="closeMenu(); document.getElementById('developer').scrollIntoView({behavior:'smooth'})">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Developer
+    </li>
+  </ul>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-icon">
+      <img src="assets/logo.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;position:absolute;top:0;left:0;" />
+    </div>
+    <span class="nav-name">Flow</span>
+  </a>
+  <button class="hamburger" onclick="openMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-tag">Flow</div>
+  <h1>Flow</h1>
+  <p>Your #1 powerful semi-legit scripts provider, Safe &amp; Verified.</p>
+  <button class="btn-script" onclick="openModal()">
+    <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+    Get Script
+  </button>
+</section>
+
+<!-- Script Modal -->
+<div class="modal-bg" id="modalBg" onclick="handleModalClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      <button class="close-btn" onclick="closeModal()">✕</button>
+    </div>
+    <h3>Script:</h3>
+    <div class="code-block">
+      <code id="scriptText"><span class="fn">loadstring</span>(game:HttpGet(<span style="color:#86ef52">"https://flowscript.netlify.app/api/auth"</span>))()</code>
+      <button class="copy-btn" onclick="copyScript()" title="Copy">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+      </button>
+    </div>
+    <div class="copied-msg" id="copiedMsg">✓ Copied to clipboard!</div>
+  </div>
+</div>
+
+<!-- Features -->
+<section id="features">
+  <h2 class="section-title">Features</h2>
+  <div class="features-grid">
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <h3>Speed &amp; Performance</h3>
+      <p>Optimized for lightning-fast execution.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+      </div>
+      <h3>Modern Design</h3>
+      <p>A sleek, user-friendly interface.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+      </div>
+      <h3>Customize Theme</h3>
+      <p>Tailor it to your needs effortlessly.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <h3>All Devices</h3>
+      <p>Seamless experience across all devices.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><circle cx="7" cy="17" r="3"/><path d="M10 17V5l11 3v9"/><circle cx="21" cy="17" r="3"/></svg>
+      </div>
+      <h3>Key System</h3>
+      <p>Simple and easy to obtain.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <h3>Modern Interface</h3>
+      <p>Fresh and clean UI for great experience.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <div class="faq-list">
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        What is Flow?
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Flow is a powerful semi-legit scripts provider, offering safe and verified scripts for various purposes.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        How do I use the script?
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Click the "Get Script" button on the homepage, copy the provided script, and paste it into your executor.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        Is the script safe to use?
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Yes. All scripts are tested and verified before publishing to ensure safety and reliability.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        Does Flow require a key?
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">The key system is simple and easy to obtain — designed to take minimal effort so you can get right into using the script.</div></div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q">
+        Is Flow optimized?
+        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a"><div class="faq-a-inner">Absolutely. Flow is built with performance as a core priority, ensuring fast load times and smooth execution.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Developer -->
+<section id="developer">
+  <h2 class="section-title">Developer</h2>
+  <div class="dev-card">
+    <div class="dev-avatar">👤</div>
+    <div class="dev-name">prsphecy</div>
+    <div class="dev-role">Owner</div>
+    <p class="dev-bio">Hey, I am Malcolm and I am 16 years old with a passion for coding and creating cool stuff. One of my latest projects is called Flow . Grove, a script I've been working on to push creativity and performance to the next level. Whether it's automating tasks, enhancing gameplay, or just experimenting with new ideas, coding is my way of turning imagination into reality.</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  © 2026 Flow . Grove. All rights reserved.
+</footer>
+
+<script>
+  // Floating squares
+  const grid = document.getElementById('grid');
+  for (let i = 0; i < 22; i++) {
+    const sq = document.createElement('div');
+    sq.className = 'sq';
+    const size = 18 + Math.random() * 50;
+    sq.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${20 + Math.random()*80}%;
+      animation-duration:${8 + Math.random()*14}s;
+      animation-delay:${Math.random()*10}s;
+      opacity:${0.2 + Math.random()*0.5};
+    `;
+    grid.appendChild(sq);
+  }
+
+  // Menu
+  function openMenu() {
+    document.getElementById('sideMenu').classList.add('open');
+    document.getElementById('overlay').classList.add('show');
+  }
+  function closeMenu() {
+    document.getElementById('sideMenu').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  // Modal
+  function openModal() {
+    document.getElementById('modalBg').classList.add('show');
+  }
+  function closeModal() {
+    document.getElementById('modalBg').classList.remove('show');
+  }
+  function handleModalClick(e) {
+    if (e.target === document.getElementById('modalBg')) closeModal();
+  }
+
+  // Copy
+  function copyScript() {
+    const text = `loadstring(game:HttpGet("https://flowscript.netlify.app/api/auth"))()`;
+    navigator.clipboard.writeText(text).catch(() => {});
+    const msg = document.getElementById('copiedMsg');
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 2000);
+  }
+
+  // FAQ
+  function toggleFaq(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+  }
+</script>
+
+</body>
+</html>
