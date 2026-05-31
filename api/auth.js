@@ -1,15 +1,15 @@
-export default function handler(req, res) {
+local requestFunc = syn and syn.request or http and http.request or request
 
-const token = req.headers["x-flow-token"];
+if not requestFunc then
+    return error("Request function not found")
+end
 
-if (token !== "my_9aK2pX_flow_token") {
-    return res.status(403).send("You are not authorized to view this endpoint.");
-}
+local response = requestFunc({
+    Url = "https://raw.githubusercontent.com/prsphecy/flow/refs/heads/main/Initializer.lua",
+    Method = "GET",
+    Headers = {
+        ["x-flow-token"] = "my_9aK2pX_flow_token"
+    }
+})
 
-res.setHeader("Content-Type", "text/plain");
-
-res.status(200).send(`
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/prsphecy/flow/refs/heads/main/Initializer.lua"))()
-`);
-}
+loadstring(response.Body)()
