@@ -1,4 +1,11 @@
-const script = `
+module.exports = function handler(req, res) {
+  const ua = req.headers['user-agent'] || '';
+
+  if (ua !== '') {
+    return res.status(403).send('Forbidden');
+  }
+
+  const script = `
 local requestFunc = syn and syn.request or http and http.request or request
 
 if not requestFunc then
@@ -16,6 +23,5 @@ local response = requestFunc({
 loadstring(response.Body)()
 `;
 
-export default function handler(req, res) {
   res.status(200).send(script);
-}
+};
