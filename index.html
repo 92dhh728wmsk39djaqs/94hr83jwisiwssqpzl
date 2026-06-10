@@ -1,253 +1,726 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flow . Grove</title>
-  <link rel="stylesheet" href="style.css"/>
-</head>
+<meta charset="utf-8" />
+<title>Flow - Premium Script Suite</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Your #1 powerful semi-legit script. Safe, verified, and absurdly fast." />
+<link rel="icon" href="https://raw.githubusercontent.com/ItsJiDy/Overdrive-H/refs/heads/main/images/fav_icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg-0: #03060f;
+    --bg-1: #060c1f;
+    --bg-2: #0b1638;
+    --ink-0: #e8f0ff;
+    --ink-1: #b8c7ec;
+    --ink-2: #7d8cb8;
+    --ink-3: #4a5a85;
+    --line: rgba(120, 160, 255, 0.10);
+    --line-2: rgba(120, 160, 255, 0.20);
+    --card: rgba(14, 26, 60, 0.5);
+    --accent: #6aa6ff;
+    --accent-2: #8ad8ff;
+    --accent-3: #b48bff;
+    --good: #4be3a6;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg-0); color: var(--ink-0); font-family: "Inter Tight", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
 
+  /* ===== Background ===== */
+  .bg {
+    position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none;
+    background:
+      radial-gradient(1400px 900px at 18% -5%, rgba(70, 120, 255, 0.32), transparent 60%),
+      radial-gradient(1100px 800px at 92% 5%, rgba(140, 90, 255, 0.22), transparent 65%),
+      radial-gradient(1000px 800px at 50% 110%, rgba(60, 180, 255, 0.18), transparent 60%),
+      linear-gradient(180deg, #03060f 0%, #060c1f 40%, #03060f 100%);
+  }
+  .bg::before {
+    content: ""; position: absolute; inset: -25%;
+    background: conic-gradient(from 200deg at 35% 30%, rgba(80,140,255,0.10), transparent 28%, rgba(150,90,255,0.10) 55%, transparent 78%, rgba(80,200,255,0.10));
+    filter: blur(80px);
+    animation: drift 32s linear infinite;
+  }
+  .bg::after {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(120,160,255,0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120,160,255,0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 35%, transparent 80%);
+  }
+  @keyframes drift {
+    0%   { transform: rotate(0deg) scale(1); }
+    50%  { transform: rotate(180deg) scale(1.08); }
+    100% { transform: rotate(360deg) scale(1); }
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: fixed; border-radius: 50%; filter: blur(60px); z-index: 0; pointer-events: none;
+    animation: float 16s ease-in-out infinite;
+  }
+  .orb.o1 { top: 12%; left: 8%; width: 280px; height: 280px; background: radial-gradient(circle, rgba(106,166,255,0.35), transparent 70%); animation-delay: 0s; }
+  .orb.o2 { top: 60%; right: 6%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(180,139,255,0.28), transparent 70%); animation-delay: -5s; }
+  .orb.o3 { top: 30%; left: 55%; width: 220px; height: 220px; background: radial-gradient(circle, rgba(138,216,255,0.25), transparent 70%); animation-delay: -10s; }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(40px, -30px); }
+    66% { transform: translate(-30px, 40px); }
+  }
+
+  /* ===== Layout ===== */
+  .wrap { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+  /* ===== Nav ===== */
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(18px) saturate(140%);
+    background: linear-gradient(180deg, rgba(3,6,15,0.75), rgba(3,6,15,0.4));
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; gap: 28px;
+    padding: 16px 28px; max-width: 1200px; margin: 0 auto;
+  }
+  .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 17px; letter-spacing: -0.4px; white-space: nowrap; flex-shrink: 0; }
+  .logo-mark {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, #6aa6ff, #b48bff 70%, #8ad8ff);
+    position: relative; box-shadow: 0 8px 24px rgba(106,166,255,0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+    display: grid; place-items: center;
+    color: #03060f; font-weight: 800; font-size: 17px; letter-spacing: -1px;
+  }
+  .logo-mark::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.4), transparent 60%);
+    pointer-events: none;
+  }
+  .nav-links { display: flex; gap: 4px; margin-left: 28px; }
+  .nav-links a {
+    padding: 8px 14px; border-radius: 8px; font-size: 14px; color: var(--ink-1); font-weight: 500;
+    transition: background 200ms, color 200ms;
+  }
+  .nav-links a:hover { background: rgba(120,160,255,0.08); color: var(--ink-0); }
+  .nav-spacer { flex: 1; }
+  .nav-status {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono"; font-size: 11px; color: var(--good);
+    padding: 5px 11px; border: 1px solid rgba(75,227,166,0.3); border-radius: 999px;
+    background: rgba(75,227,166,0.08);
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .nav-status .d { width: 6px; height: 6px; border-radius: 50%; background: var(--good); box-shadow: 0 0 8px var(--good); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.3);opacity:0.6;} }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 10px; font-size: 14px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--line-2); color: var(--ink-0);
+    background: var(--card); backdrop-filter: blur(10px);
+    transition: transform 200ms, border-color 200ms, box-shadow 200ms;
+    font-family: inherit;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .btn:hover { transform: translateY(-1px); border-color: var(--accent); }
+  .btn.primary {
+    background: linear-gradient(135deg, #4a83ff, #6aa6ff 45%, #8ad8ff);
+    color: #03060f; border-color: transparent; font-weight: 700;
+    box-shadow: 0 8px 22px rgba(74,131,255,0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .btn.primary:hover { box-shadow: 0 14px 36px rgba(74,131,255,0.55), inset 0 1px 0 rgba(255,255,255,0.3); }
+
+  /* ===== Hero ===== */
+  .hero { padding: 80px 0 100px; text-align: center; position: relative; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 7px 16px 7px 8px; border-radius: 999px;
+    background: rgba(106,166,255,0.06); border: 1px solid var(--line-2);
+    font-size: 12.5px; color: var(--ink-1); margin-bottom: 28px;
+    animation: heroFade 700ms ease-out backwards;
+    white-space: nowrap; max-width: 100%;
+  }
+  .badge .pill {
+    background: linear-gradient(135deg, #6aa6ff, #b48bff);
+    color: #03060f; font-weight: 700; font-size: 10.5px; padding: 3px 9px; border-radius: 999px;
+    letter-spacing: 0.4px;
+  }
+  .badge .arrow { color: var(--ink-2); transition: transform 200ms; }
+  .badge:hover .arrow { transform: translateX(3px); }
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 88px); margin: 0; font-weight: 700; letter-spacing: -2.5px; line-height: 0.95;
+    background: linear-gradient(180deg, #ffffff 0%, #a8bce8 130%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: heroFade 800ms ease-out 100ms backwards;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(135deg, #6aa6ff 0%, #8ad8ff 50%, #b48bff 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    background-size: 200% 200%; animation: gradMove 6s ease infinite;
+  }
+  @keyframes gradMove { 0%,100%{background-position:0% 50%;} 50%{background-position:100% 50%;} }
+  .hero p.lede {
+    font-size: 18px; color: var(--ink-1); max-width: 600px; margin: 24px auto 0; line-height: 1.55;
+    animation: heroFade 800ms ease-out 200ms backwards;
+  }
+  .hero-ctas { display: flex; gap: 12px; justify-content: center; margin-top: 36px; animation: heroFade 800ms ease-out 300ms backwards; }
+  @keyframes heroFade { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Hero stats */
+  .hero-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    margin: 64px auto 0; max-width: 900px;
+    border: 1px solid var(--line); border-radius: 16px;
+    background: linear-gradient(160deg, rgba(18,32,72,0.5), rgba(10,18,48,0.3));
+    backdrop-filter: blur(14px);
+    overflow: hidden;
+    animation: heroFade 800ms ease-out 500ms backwards;
+  }
+  .hs { padding: 22px 18px; text-align: center; border-right: 1px solid var(--line); }
+  .hs:last-child { border-right: 0; }
+  .hs .v { font-size: 28px; font-weight: 700; letter-spacing: -1px; background: linear-gradient(180deg, #ffffff, #8ad8ff); -webkit-background-clip: text; background-clip: text; color: transparent; font-variant-numeric: tabular-nums; }
+  .hs .l { font-size: 11.5px; color: var(--ink-2); letter-spacing: 0.6px; text-transform: uppercase; margin-top: 6px; font-weight: 500; }
+
+  /* ===== Section heading ===== */
+  .section { padding: 100px 0; position: relative; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono"; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent-2); margin-bottom: 16px;
+  }
+  .eyebrow::before {
+    content: ""; width: 24px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent));
+  }
+  .section h2 {
+    font-size: clamp(34px, 4.5vw, 52px); margin: 0; font-weight: 700; letter-spacing: -1.5px; line-height: 1.05;
+    background: linear-gradient(180deg, #ffffff 0%, #a8bce8 140%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .section h2 + p.intro {
+    font-size: 16px; color: var(--ink-2); max-width: 580px; margin: 18px 0 0; line-height: 1.6;
+  }
+  .section-head { margin-bottom: 56px; }
+  .section-head.center { text-align: center; }
+  .section-head.center .eyebrow { justify-content: center; }
+  .section-head.center .eyebrow::before { display: none; }
+  .section-head.center p.intro { margin-left: auto; margin-right: auto; }
+
+  /* ===== Features ===== */
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feat {
+    position: relative; overflow: hidden;
+    padding: 28px 26px; border-radius: 18px; border: 1px solid var(--line);
+    background: linear-gradient(160deg, rgba(18,32,72,0.5), rgba(10,18,48,0.3));
+    backdrop-filter: blur(14px);
+    transition: transform 300ms, border-color 300ms;
+  }
+  .feat:hover { transform: translateY(-3px); border-color: var(--line-2); }
+  .feat::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0; transition: opacity 300ms;
+  }
+  .feat:hover::before { opacity: 1; }
+  .feat::after {
+    content: ""; position: absolute; top: -50%; right: -30%; width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(106,166,255,0.12), transparent 60%);
+    opacity: 0; transition: opacity 400ms; pointer-events: none;
+  }
+  .feat:hover::after { opacity: 1; }
+  .feat-ico {
+    width: 46px; height: 46px; border-radius: 12px;
+    background: linear-gradient(135deg, rgba(106,166,255,0.18), rgba(180,139,255,0.12));
+    border: 1px solid rgba(106,166,255,0.25);
+    display: grid; place-items: center; color: var(--accent-2);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .feat h3 { margin: 0 0 8px; font-size: 18px; font-weight: 600; letter-spacing: -0.3px; }
+  .feat p { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.55; }
+
+  /* ===== Preview card ===== */
+  .preview {
+    margin-top: 56px;
+    border-radius: 20px; border: 1px solid var(--line-2);
+    background: linear-gradient(160deg, rgba(18,32,72,0.7), rgba(10,18,48,0.5));
+    backdrop-filter: blur(14px);
+    overflow: hidden; padding: 18px;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.5), 0 0 60px -20px rgba(106,166,255,0.3);
+  }
+  .preview-bar {
+    display: flex; align-items: center; gap: 10px; padding: 4px 8px 14px;
+    border-bottom: 1px solid var(--line); margin-bottom: 14px;
+  }
+  .preview-bar .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .preview-bar .dot.r { background: #ff6b8a; }
+  .preview-bar .dot.y { background: #ffb86b; }
+  .preview-bar .dot.g { background: #4be3a6; }
+  .preview-bar .ttl { font-family: "JetBrains Mono"; font-size: 11.5px; color: var(--ink-2); margin-left: 14px; }
+  .code {
+    background: rgba(3,6,15,0.7); border-radius: 12px; padding: 22px 24px;
+    font-family: "JetBrains Mono"; font-size: 13px; line-height: 1.75;
+    color: var(--ink-1); overflow-x: auto;
+    white-space: nowrap;
+  }
+  .code .ln { color: var(--ink-3); display: inline-block; width: 28px; user-select: none; }
+  .code .k { color: var(--accent-3); }
+  .code .s { color: var(--good); }
+  .code .c { color: var(--ink-3); font-style: italic; }
+  .code .f { color: var(--accent-2); }
+  .code .blink { display: inline-block; width: 8px; height: 14px; background: var(--accent-2); vertical-align: -2px; animation: blink 1s steps(2) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ===== FAQ ===== */
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .faq {
+    border: 1px solid var(--line); border-radius: 14px;
+    background: linear-gradient(160deg, rgba(18,32,72,0.4), rgba(10,18,48,0.25));
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: border-color 250ms;
+  }
+  .faq:hover { border-color: var(--line-2); }
+  .faq summary {
+    list-style: none; cursor: pointer;
+    padding: 20px 22px;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    font-size: 15px; font-weight: 500; color: var(--ink-0);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq .chev {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(106,166,255,0.08); border: 1px solid var(--line-2);
+    display: grid; place-items: center; color: var(--accent-2);
+    transition: transform 300ms, background 250ms;
+    flex-shrink: 0;
+  }
+  .faq[open] .chev { transform: rotate(180deg); background: rgba(106,166,255,0.2); }
+  .faq-body {
+    padding: 0 22px 20px;
+    color: var(--ink-2); font-size: 14px; line-height: 1.65;
+    animation: faqOpen 300ms ease-out;
+  }
+  @keyframes faqOpen { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ===== Developer ===== */
+  .dev {
+    display: grid; grid-template-columns: 280px 1fr; gap: 48px; align-items: center;
+    padding: 44px;
+    border: 1px solid var(--line); border-radius: 22px;
+    background: linear-gradient(160deg, rgba(18,32,72,0.55), rgba(10,18,48,0.35));
+    backdrop-filter: blur(14px);
+    position: relative; overflow: hidden;
+  }
+  .dev::before {
+    content: ""; position: absolute; top: -40%; left: -10%; width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(180,139,255,0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .dev-avatar {
+    width: 240px; height: 240px; border-radius: 24px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #6aa6ff, #b48bff 70%, #8ad8ff);
+    display: grid; place-items: center;
+    box-shadow: 0 20px 50px rgba(106,166,255,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+  .dev-avatar::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.45), transparent 55%);
+  }
+  .dev-avatar .glyph {
+    position: relative; z-index: 2;
+    font-size: 96px; font-weight: 800; color: #03060f; letter-spacing: -6px;
+  }
+  .dev-avatar .ring {
+    position: absolute; inset: -2px; border-radius: 26px;
+    background: conic-gradient(from 0deg, transparent, var(--accent-2), transparent 30%);
+    animation: spin 4s linear infinite;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude; padding: 2px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .dev-info .role {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono"; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent-2); margin-bottom: 12px;
+  }
+  .dev-info h3 { margin: 0 0 6px; font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+  .dev-info .sub { color: var(--ink-2); font-size: 14px; margin-bottom: 18px; }
+  .dev-info p { color: var(--ink-1); font-size: 15px; line-height: 1.7; margin: 0 0 22px; }
+  .dev-meta { display: flex; gap: 22px; }
+  .dev-meta .m .l { font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.6px; }
+  .dev-meta .m .v { font-size: 14px; color: var(--ink-0); font-weight: 600; margin-top: 3px; }
+
+  /* ===== CTA ===== */
+  .cta {
+    padding: 60px 48px; border-radius: 24px; text-align: center; position: relative; overflow: hidden;
+    border: 1px solid var(--line-2);
+    background:
+      radial-gradient(800px 400px at 50% 0%, rgba(106,166,255,0.25), transparent 60%),
+      linear-gradient(160deg, rgba(18,32,72,0.7), rgba(10,18,48,0.5));
+    backdrop-filter: blur(14px);
+  }
+  .cta::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(rgba(120,160,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(120,160,255,0.05) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+  .cta h2 { margin: 0; font-size: clamp(34px, 5vw, 56px); font-weight: 700; letter-spacing: -1.5px; line-height: 1.05; position: relative; }
+  .cta h2 .grad { background: linear-gradient(135deg, #6aa6ff, #b48bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cta p { margin: 16px auto 32px; color: var(--ink-1); font-size: 16px; max-width: 480px; position: relative; }
+  .cta .ctas { display: flex; gap: 12px; justify-content: center; position: relative; }
+
+  /* ===== Footer ===== */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 40px 28px;
+    margin-top: 80px;
+    position: relative; z-index: 2;
+  }
+  .foot-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+  .foot-links { display: flex; gap: 22px; font-size: 13.5px; color: var(--ink-2); }
+  .foot-links a:hover { color: var(--ink-0); }
+  .foot-copy { font-size: 13px; color: var(--ink-3); }
+
+  /* Reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 700ms ease, transform 700ms cubic-bezier(0.22,1,0.36,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal-stagger > * { opacity: 0; transform: translateY(16px); transition: opacity 600ms ease, transform 600ms cubic-bezier(0.22,1,0.36,1); }
+  .reveal-stagger.in > *:nth-child(1) { transition-delay: 60ms; }
+  .reveal-stagger.in > *:nth-child(2) { transition-delay: 130ms; }
+  .reveal-stagger.in > *:nth-child(3) { transition-delay: 200ms; }
+  .reveal-stagger.in > *:nth-child(4) { transition-delay: 270ms; }
+  .reveal-stagger.in > *:nth-child(5) { transition-delay: 340ms; }
+  .reveal-stagger.in > *:nth-child(6) { transition-delay: 410ms; }
+  .reveal-stagger.in > * { opacity: 1; transform: translateY(0); }
+
+  /* Responsive */
+  @media (max-width: 1080px) {
+    .nav-links { display: none; }
+    .nav-status { display: none; }
+  }
+  @media (max-width: 900px) {
+    .features { grid-template-columns: 1fr 1fr; }
+    .faq-grid { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hs:nth-child(2) { border-right: 0; }
+    .hs:nth-child(1), .hs:nth-child(2) { border-bottom: 1px solid var(--line); }
+    .dev { grid-template-columns: 1fr; text-align: center; padding: 32px 24px; }
+    .dev-avatar { margin: 0 auto; width: 180px; height: 180px; }
+    .dev-meta { justify-content: center; }
+  }
+  @media (max-width: 560px) {
+    .features { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: 1fr; }
+    .hs { border-right: 0; border-bottom: 1px solid var(--line); }
+    .hs:last-child { border-bottom: 0; }
+    .cta { padding: 44px 24px; }
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(120,160,255,0.18); border-radius: 5px; border: 2px solid var(--bg-0); }
+</style>
+</head>
 <body>
 
-<!-- Floating background squares -->
-<div class="bg-canvas">
-  <div class="grid-float" id="grid"></div>
-</div>
+<div class="bg"></div>
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
 
-<!-- Side Menu Overlay -->
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-
-<!-- Side Menu -->
-<div class="side-menu" id="sideMenu">
-  <div class="menu-header">
-    <div class="menu-brand">
-      <div class="nav-icon">
-        <img src="assets/logo.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;position:absolute;top:0;left:0;" />
-      </div>
-      <span class="nav-name">Flow . Grove</span>
-    </div>
-    <button class="close-btn" onclick="closeMenu()">✕</button>
+<nav class="top">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark"><img src="https://raw.githubusercontent.com/ItsJiDy/Overdrive-H/refs/heads/main/images/IMG_20260502_125537.png" width="32"/></div>
+      <span>Flow</span>
+    </a>
+    <div class="nav-spacer"></div>
+    <a href="https://discord.gg/KG2fnE5Vn9" class="btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.01.06.02.09.01 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12 0-1.17.84-2.12 1.89-2.12 1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12 0-1.17.84-2.12 1.89-2.12 1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12z"/></svg>
+      Discord
+    </a>
   </div>
-  <ul class="menu-links">
-    <li onclick="closeMenu(); document.getElementById('features').scrollIntoView({behavior:'smooth'})">
-      <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      Features
-    </li>
-    <li onclick="closeMenu(); document.getElementById('faq').scrollIntoView({behavior:'smooth'})">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      FAQ
-    </li>
-    <li onclick="closeMenu(); document.getElementById('developer').scrollIntoView({behavior:'smooth'})">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Developer
-    </li>
-  </ul>
-</div>
-
-<!-- Nav -->
-<nav>
-  <a class="nav-brand" href="#">
-    <div class="nav-icon">
-      <img src="assets/logo.jpeg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;position:absolute;top:0;left:0;" />
-    </div>
-    <span class="nav-name">Flow . Grove</span>
-  </a>
-  <button class="hamburger" onclick="openMenu()">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-tag">Flow . Grove</div>
-  <h1>Flow</h1>
-  <p>Your #1 powerful semi-legit scripts provider, Safe &amp; Verified.</p>
-  <button class="btn-script" onclick="openModal()">
-    <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-    Get Script
-  </button>
-</section>
+<div class="wrap">
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <span />
+    <br />
+    <span />
+    <p />
+    <span />
+    <br />
+    <span />
+    <br />
+    <span />
+    <p />
+    <span />
+    <br />
+    <span />
+    <br />
+    <span />
+    <p />
+    <h1><img src="https://raw.githubusercontent.com/ItsJiDy/Overdrive-H/refs/heads/main/images/IMG_20260502_125537.png" width="100"/></h1>
+    <h1><span class="grad">Flow</span></h1>
+    <p class="lede">Your #1 powerful semi-legit script, Safe & Verified.</p>
+    <div class="hero-ctas">
+      <a href="#showcase" class="btn primary">
+        Get Script
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://discord.gg/KG2fnE5Vn9" class="btn">
+        Join Discord
+      </a>
+    </div>
+    <br />
+    <span />
+    <p />
+    <span />
+    <br />
+  </section>
 
-<!-- Script Modal -->
-<div class="modal-bg" id="modalBg" onclick="handleModalClick(event)">
-  <div class="modal" id="modal">
-    <div class="modal-head">
-      <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-      <button class="close-btn" onclick="closeModal()">✕</button>
+  <!-- ===== FEATURES ===== -->
+  <section class="section" id="features">
+    <div class="section-head reveal">
+      <span class="eyebrow">Capabilities</span>
+      <h2>Everything you need.<br/>Nothing you don't.</h2>
+      <p class="intro">A focused toolkit designed around how people actually use scripts - fast to load, beautiful to use, easy to trust.</p>
     </div>
-    <h3>Script:</h3>
-    <div class="code-block">
-      <code id="scriptText"><span class="fn">loadstring</span>(game:HttpGet(<span style="color:#86ef52">"https://flowscript.netlify.app/api/auth"</span>))()</code>
-      <button class="copy-btn" onclick="copyScript()" title="Copy">
-        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-      </button>
+
+    <div class="features reveal-stagger">
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"/></svg>
+        </div>
+        <h3>Speed &amp; Performance</h3>
+        <p>Lightning-fast execution. Hot-path code compiled and cached so commands fire in single-digit milliseconds.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <h3>Modern Design</h3>
+        <p>A sleek, considered UI. Frosted glass, motion that means something, and a layout you don't have to learn.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/><circle cx="7" cy="9" r="1.5" fill="currentColor"/><circle cx="16" cy="9" r="1.5" fill="currentColor"/><circle cx="12" cy="16" r="1.5" fill="currentColor"/></svg>
+        </div>
+        <h3>Theme Engine</h3>
+        <p>Customize every accent, radius, and gradient. Build a theme, save it, share it - the whole UI follows.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="14" height="10" rx="2"/><rect x="16" y="9" width="6" height="11" rx="1.5"/><path d="M9 19h6M12 16v3"/></svg>
+        </div>
+        <h3>Cross-Device</h3>
+        <p>One seamless experience across desktop, mobile, and tablet. Switch devices mid-session - nothing breaks.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3>Key System</h3>
+        <p>One-tap key retrieval. Quick checkpoints, fair caps, and a flow that respects your time.</p>
+      </div>
+      <div class="feat">
+        <div class="feat-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6l9-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Verified &amp; Safe</h3>
+        <p>Every release is signed, scanned, and load-tested before it ships. Transparent changelog every single update.</p>
+      </div>
     </div>
-    <div class="copied-msg" id="copiedMsg">✓ Copied to clipboard!</div>
-  </div>
+  </section>
+
+  <!-- ===== SHOWCASE ===== -->
+  <section class="section" id="showcase" style="padding-top: 40px;">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Drop-in install</span>
+      <h2>One lines.<br/>Then you're flying.</h2>
+      <p class="intro">No setup wizard. No 14-step config. Paste it, run it, customize from inside the UI.</p>
+    </div>
+
+    <div class="preview reveal">
+      <div class="preview-bar">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="ttl">script.lua - Flow</span>
+      </div>
+      <div class="code">
+          <span class="ln">1</span><span class="k">loadstring</span>(<span class="f">game</span>:<span class="f">HttpGet</span>(<span class="s">"https://api.overdrivehub.xyz/v1/auth"</span>))()<span class="blink"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section" id="faq">
+    <div class="section-head reveal">
+      <span class="eyebrow">Answers</span>
+      <h2>Frequently asked.</h2>
+      <p class="intro">If you're new, start here. Anything else - the Discord answers fast.</p>
+    </div>
+    <div class="faq-grid reveal-stagger">
+      <details class="faq" open>
+        <summary>What is Flow?
+          <span class="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="faq-body">Flow is a powerful semi-legit script, safe and verified built for speed, stability, and a clean user experience.</div>
+      </details>
+      <details class="faq">
+        <summary>How do I use the script?
+          <span class="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="faq-body">Copy the loader snippet from the Showcase section and run it in your current executor. The UI launches automatically.</div>
+      </details>
+      <details class="faq">
+        <summary>Is the script safe to use?
+          <span class="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="faq-body">Yes. Every build is verified, tested, and load-checked before release. Users should still operate responsibly and in line with the Terms of Service.</div>
+      </details>
+      <details class="faq">
+        <summary>Does it require a key?
+          <span class="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="faq-body">Yes - Flow uses a short, simple key system. Keys take a few seconds to obtain and help support continued development.</div>
+      </details>
+      <details class="faq">
+        <summary>Is it optimized?
+          <span class="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="faq-body">Yes, the script runs smooth even in low-end devices.</div>
+      </details>
+      <details class="faq">
+        <summary>How often are updates released?
+          <span class="chev"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></span>
+        </summary>
+        <div class="faq-body">Patches happens every several months or weeks depending on the situation. The full changelog lives in Discord and inside the script changelog tab.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ===== DEVELOPER ===== -->
+  <section class="section" id="developer">
+    <div class="section-head reveal">
+      <span class="eyebrow">Behind the build</span>
+      <h2>Meet the developer.</h2>
+    </div>
+    <div class="dev reveal">
+      <div class="dev-avatar">
+        <div class="ring"></div>
+        <div class="glyph">AX</div>
+      </div>
+      <div class="dev-info">
+        <div class="role">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>
+          Founder · Developer
+        </div>
+        <h3>Axioria</h3>
+        <div class="sub">Creator of Flow</div>
+        <p>Hey! I'm Malcolm I'm 16, and I've been coding for as long as I can remember. Flow is the project I keep pushing further: a script suite built around speed, polish, and the idea that small tools can feel deeply considered. Whether it's automating tasks, sharpening gameplay, or just experimenting with new ideas - turning imagination into something real is the whole point.</p>
+        <div class="dev-meta">
+          <div class="m"><div class="l">Since</div><div class="v">2022</div></div>
+          <div class="m"><div class="l">Stack</div><div class="v">Lua/U · C++</div></div>
+          <div class="m"><div class="l">Hobby</div><div class="v">Coding</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="section" id="cta">
+    <div class="cta reveal">
+      <h2>Ready to go <span class="grad">overdrive</span>?</h2>
+      <p>Grab the loader, execute in your executor, validate your whitelist, and you're running in under a minute.</p>
+      <div class="ctas">
+        <a href="#showcase" class="btn primary">
+          Get Script
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://discord.gg/KG2fnE5Vn9" class="btn">Join the Discord</a>
+      </div>
+    </div>
+  </section>
 </div>
 
-<!-- Features -->
-<section id="features">
-  <h2 class="section-title">Features</h2>
-  <div class="features-grid">
-    <div class="feat-card">
-      <div class="feat-icon">
-        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      </div>
-      <h3>Speed &amp; Performance</h3>
-      <p>Optimized for lightning-fast execution.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
-      </div>
-      <h3>Modern Design</h3>
-      <p>A sleek, user-friendly interface.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">
-        <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-      </div>
-      <h3>Customize Theme</h3>
-      <p>Tailor it to your needs effortlessly.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">
-        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-      </div>
-      <h3>All Devices</h3>
-      <p>Seamless experience across all devices.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">
-        <svg viewBox="0 0 24 24"><circle cx="7" cy="17" r="3"/><path d="M10 17V5l11 3v9"/><circle cx="21" cy="17" r="3"/></svg>
-      </div>
-      <h3>Key System</h3>
-      <p>Simple and easy to obtain.</p>
-    </div>
-    <div class="feat-card">
-      <div class="feat-icon">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      </div>
-      <h3>Modern Interface</h3>
-      <p>Fresh and clean UI for great experience.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="faq">
-  <h2 class="section-title">Frequently Asked Questions</h2>
-  <div class="faq-list">
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">
-        What is Flow?
-        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner">Flow is a powerful semi-legit scripts provider, offering safe and verified scripts for various purposes.</div></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">
-        How do I use the script?
-        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner">Click the "Get Script" button on the homepage, copy the provided script, and paste it into your executor.</div></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">
-        Is the script safe to use?
-        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner">Yes. All scripts are tested and verified before publishing to ensure safety and reliability.</div></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">
-        Does Flow require a key?
-        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner">The key system is simple and easy to obtain — designed to take minimal effort so you can get right into using the script.</div></div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">
-        Is Flow optimized?
-        <svg class="chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
-      </div>
-      <div class="faq-a"><div class="faq-a-inner">Absolutely. Flow is built with performance as a core priority, ensuring fast load times and smooth execution.</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- Developer -->
-<section id="developer">
-  <h2 class="section-title">Developer</h2>
-  <div class="dev-card">
-    <div class="dev-avatar">👤</div>
-    <div class="dev-name">prsphecy</div>
-    <div class="dev-role">Owner</div>
-    <p class="dev-bio">Hey, I am Malcolm and I am 16 years old with a passion for coding and creating cool stuff. One of my latest projects is called Flow . Grove, a script I've been working on to push creativity and performance to the next level. Whether it's automating tasks, enhancing gameplay, or just experimenting with new ideas, coding is my way of turning imagination into reality.</p>
-  </div>
-</section>
-
-<!-- Footer -->
 <footer>
-  © 2026 Flow . Grove. All rights reserved.
+  <div class="foot-inner">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div class="logo-mark" style="width:30px;height:30px;font-size:14px;border-radius:8px"><img src="https://raw.githubusercontent.com/ItsJiDy/Overdrive-H/refs/heads/main/images/IMG_20260502_125537.png" width="28"/></div>
+      <span class="foot-copy">© 2026 Flow · All rights reserved.</span>
+    </div>
+    <div class="foot-links">
+      <a href="/">Home</a>
+      <a href="https://discord.gg/KG2fnE5Vn9">Discord</a>
+      <a href="/tos">Terms of Service</a>
+    </div>
+  </div>
 </footer>
 
 <script>
-  // Floating squares
-  const grid = document.getElementById('grid');
-  for (let i = 0; i < 22; i++) {
-    const sq = document.createElement('div');
-    sq.className = 'sq';
-    const size = 18 + Math.random() * 50;
-    sq.style.cssText = `
-      width:${size}px; height:${size}px;
-      left:${Math.random()*100}%;
-      top:${20 + Math.random()*80}%;
-      animation-duration:${8 + Math.random()*14}s;
-      animation-delay:${Math.random()*10}s;
-      opacity:${0.2 + Math.random()*0.5};
-    `;
-    grid.appendChild(sq);
+  // Count up animation
+  function animate(el) {
+    const target = parseFloat(el.dataset.count);
+    const decimals = parseInt(el.dataset.decimals || "0");
+    const duration = 1600;
+    const start = performance.now();
+    function tick(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const v = target * eased;
+      el.textContent = v.toLocaleString(undefined, {
+        minimumFractionDigits: decimals, maximumFractionDigits: decimals
+      });
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target.toLocaleString(undefined, {
+        minimumFractionDigits: decimals, maximumFractionDigits: decimals
+      });
+    }
+    requestAnimationFrame(tick);
   }
 
-  // Menu
-  function openMenu() {
-    document.getElementById('sideMenu').classList.add('open');
-    document.getElementById('overlay').classList.add('show');
-  }
-  function closeMenu() {
-    document.getElementById('sideMenu').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-  }
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        // trigger counters once visible
+        e.target.querySelectorAll && e.target.querySelectorAll('[data-count]:not(.done)').forEach(el => {
+          el.classList.add('done');
+          animate(el);
+        });
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
 
-  // Modal
-  function openModal() {
-    document.getElementById('modalBg').classList.add('show');
-  }
-  function closeModal() {
-    document.getElementById('modalBg').classList.remove('show');
-  }
-  function handleModalClick(e) {
-    if (e.target === document.getElementById('modalBg')) closeModal();
-  }
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(el => io.observe(el));
 
-  // Copy
-  function copyScript() {
-    const text = `loadstring(game:HttpGet("https://flowscript.netlify.app/api/auth"))()`;
-    navigator.clipboard.writeText(text).catch(() => {});
-    const msg = document.getElementById('copiedMsg');
-    msg.classList.add('show');
-    setTimeout(() => msg.classList.remove('show'), 2000);
-  }
+  // animate hero counters immediately
+  document.querySelectorAll('.hero [data-count]').forEach(el => {
+    el.classList.add('done'); animate(el);
+  });
 
-  // FAQ
-  function toggleFaq(el) {
-    const isOpen = el.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
-    if (!isOpen) el.classList.add('open');
-  }
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id.length > 1) {
+        const t = document.querySelector(id);
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      }
+    });
+  });
 </script>
-
 </body>
 </html>
