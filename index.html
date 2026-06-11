@@ -60,7 +60,7 @@
 <!-- Hero -->
 <section class="hero">
   <div class="hero-tag">Flow . Grove</div>
-  <h1>Flow</h1>
+  <h1>FLOW</h1>
   <p>Your #1 powerful semi-legit scripts provider, Safe &amp; Verified.</p>
   <button class="btn-script" onclick="openModal()">
     <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
@@ -77,7 +77,7 @@
     </div>
     <h3>Script:</h3>
     <div class="code-block">
-      <code id="scriptText"><span class="fn">loadstring</span>(game:HttpGet(<span style="color:#86ef52">"https://flowscript.netlify.app/api/auth"</span>))()</code>
+      <code id="scriptText"><span class="fn">loadstring</span>(game:HttpGet(<span style="color:#86ef52">"https://flowscrpt.vercel.app/api/auth"</span>))()</code>
       <button class="copy-btn" onclick="copyScript()" title="Copy">
         <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
       </button>
@@ -234,7 +234,7 @@
 
   // Copy
   function copyScript() {
-    const text = `loadstring(game:HttpGet("https://flowscript.netlify.app/api/auth"))()`;
+    const text = `loadstring(game:HttpGet("https://flowscrpt.vercel.app/api/auth"))()`;
     navigator.clipboard.writeText(text).catch(() => {});
     const msg = document.getElementById('copiedMsg');
     msg.classList.add('show');
